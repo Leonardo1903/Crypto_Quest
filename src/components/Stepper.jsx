@@ -3,11 +3,14 @@ import PropTypes from "prop-types";
 import arrowRight from "../assets/arrow2.svg";
 import Forward from "../assets/arrow3.svg";
 import Back from "../assets/arrow4.svg";
+import Modal from './Modal'; // Import your modal component
 
 function Stepper({ Questions = [] }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);
   const [margin, setMargin] = useState({ marginLeft: 0, marginRight: 0 });
+  const [score, setScore] = useState(0); // Add a state for the score
+  const [showModal, setShowModal] = useState(false); // Add a state for the modal visibility
   const stepRef = useRef([]);
 
   useEffect(() => {
@@ -56,7 +59,9 @@ function Stepper({ Questions = [] }) {
   };
 
   const handleSubmit = () => {
-    alert("Form submitted");
+    // Calculate the score here and set it
+    setScore(4);
+    setShowModal(true); // Show the modal when the form is submitted
   };
 
   const ActiveComponent = () => {
@@ -161,14 +166,14 @@ function Stepper({ Questions = [] }) {
         <div className="flex flex-row items-baseline mr-4">
           {!isComplete && (
             <button
-              className=" bg-[#FFC200] rounded-2xl px-4 shadow-lg flex flex-row items-center mb-2 md:mb-0 mr-2 "
-              onClick={
-                currentStep === Questions.length ? handleSubmit : handleNext
-              }
-            >
-              {currentStep === Questions.length ? "Finish" : "Next"}
-              <img src={arrowRight} className=" h-3 w-3 ml-2" />
-            </button>
+            className=" bg-[#FFC200] rounded-2xl px-4 shadow-lg flex flex-row items-center mb-2 md:mb-0 mr-2 "
+            onClick={
+              currentStep === Questions.length ? handleSubmit : handleNext
+            }
+          >
+            {currentStep === Questions.length ? "Finish" : "Next"}
+            <img src={arrowRight} className=" h-3 w-3 ml-2" />
+          </button>
           )}
           <button
             className="text-[#FFC200] shadow-lg ml-2 flex items-center"
@@ -179,6 +184,7 @@ function Stepper({ Questions = [] }) {
           </button>
         </div>
       </div>
+      {showModal && <Modal score={score} onClose={() => setShowModal(false)} />}
     </>
   );
 }
