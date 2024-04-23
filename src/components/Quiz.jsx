@@ -28,7 +28,11 @@ function Quiz() {
   return (
     <>
       <div className="bg-[#1A1916] text-white flex flex-col justify-center items-center">
+<<<<<<< HEAD
         <div className="w-screen min-h-screen">
+=======
+        <div className="w-screen h-screen">
+>>>>>>> d25f165a4bf80c16643a87418931b4ffd135902b
           <div className="flex justify-between my-4">
             <h1 className="text-2xl ml-4">Name</h1>
             <div className="flex items-center space-x-2 mr-4">
