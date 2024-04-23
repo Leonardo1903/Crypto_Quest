@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import arrowRight from "../assets/arrow2.svg";
 import Forward from "../assets/arrow3.svg";
 import Back from "../assets/arrow4.svg";
-<<<<<<< HEAD
 import Modal from "./Modal"; // Import your modal component
-=======
-import Modal from './Modal'; // Import your modal component
->>>>>>> d25f165a4bf80c16643a87418931b4ffd135902b
 
 function Stepper({ Questions = [] }) {
   const [currentStep, setCurrentStep] = useState(1);
@@ -170,7 +166,6 @@ function Stepper({ Questions = [] }) {
         <div className="flex flex-row items-baseline mr-4">
           {!isComplete && (
             <button
-<<<<<<< HEAD
               className=" bg-[#FFC200] rounded-2xl px-4 shadow-lg flex flex-row items-center mb-2 md:mb-0 mr-2 "
               onClick={
                 currentStep === Questions.length ? handleSubmit : handleNext
@@ -189,24 +184,6 @@ function Stepper({ Questions = [] }) {
               <img src={Forward} className="h-3 w-3 ml-1" />
             </button>
           )}
-=======
-            className=" bg-[#FFC200] rounded-2xl px-4 shadow-lg flex flex-row items-center mb-2 md:mb-0 mr-2 "
-            onClick={
-              currentStep === Questions.length ? handleSubmit : handleNext
-            }
-          >
-            {currentStep === Questions.length ? "Finish" : "Next"}
-            <img src={arrowRight} className=" h-3 w-3 ml-2" />
-          </button>
-          )}
-          <button
-            className="text-[#FFC200] shadow-lg ml-2 flex items-center"
-            onClick={handleSkip}
-          >
-            Skip
-            <img src={Forward} className="h-3 w-3 ml-1" />
-          </button>
->>>>>>> d25f165a4bf80c16643a87418931b4ffd135902b
         </div>
       </div>
       {showModal && <Modal score={score} onClose={() => setShowModal(false)} />}

@@ -11,12 +11,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-<<<<<<< HEAD
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3"
-=======
-    "react-dom": "^18.2.0"
->>>>>>> d25f165a4bf80c16643a87418931b4ffd135902b
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
