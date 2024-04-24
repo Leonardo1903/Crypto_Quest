@@ -5,7 +5,7 @@ import three from '../assets/3rd-place.png';
 import rankers from '../assets/trophy-star.png'
 
 const TeamRow = ({ team }) => (
-    <div key={team.rank} className="flex items-center justify-between px-4 mb-4 border-2 rounded-xl border-yellow-500 w-full lg:w-[50%]">
+    <div key={team.rank} className="flex items-center justify-between px-4 mb-4 border-2 rounded-xl border-yellow-500 w-full lg:w-[75%] bg-black hover:bg-yellow-500">
         <div className="flex items-center">
             <p className="w-1/4 text-lg">{team.rank}</p>
             <img src={team.photo} alt="Team" className=" h-12 mx-4" /> 
