@@ -1,23 +1,33 @@
-import { React } from 'react';
+import React from 'react'
 import img1 from '../assets/hero.png';
 
-const LoginForm = () => (
+
+const LoginForm = () => {
+  
+  return (
     <form action="#" method="POST" className="space-y-4">
     <div>
         <label htmlFor="email" className="block text-sm font-medium text-white">Email</label>
+
         <input type="text" id="email" name="email" className="mt-1 p-2 w-full border rounded-md focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-yellow-500 transition-colors duration-300"/>
+
     </div>
     <div >
+
         <label htmlFor="password" className="block text-sm font-medium text-white">Password</label>
+        
         <input type="password" id="password" name="password" className="mt-1 p-2 w-full border rounded-md focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-yellow-500 transition-colors duration-300"/>
+    
     </div>
         <div >
         <button type="submit" className="w-full mt-8 bg-yellow-500 text-white p-2 rounded-full shadow-lg ">Sign Up</button>
     </div>
     </form>
-);
+);}
 
-const Login = () => (
+const Login = () => {
+  
+  return (
     <div className="flex h-screen">
     <div className="w-full bg-[#1A1916] lg:w-1/2 flex items-center justify-center">
       <div className="max-w-md w-full p-6">
@@ -32,6 +42,6 @@ const Login = () => (
       </div>
     </div>
   </div>
-);
+);}
 
 export default Login;
