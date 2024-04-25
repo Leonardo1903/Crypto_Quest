@@ -1,10 +1,19 @@
-import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import userIcon from "../assets/user.svg";
 import arrowIcon from "../assets/arrow1.svg";
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react';
+
+import { useAuth } from '../utils/AuthContext'
+
 
 function Header() {
-  const [user, setUser] = useState(true);
+  const navigate = useNavigate()
+  const {user,logoutUser} = useAuth()
+  
+  console.log(user);  
+
+  
 
   return (
     <div className="Header flex justify-around my-4">
@@ -18,7 +27,7 @@ function Header() {
       <div className="links--wrapper">
         {user ? (
           <>
-            <button className="inline-block cursor-pointer bg-black text-white px-4 py-2 transition-colors duration-300 border border-black no-underline hover:bg-white hover:text-black" onClick={() => setUser(null) } to="/">Logout</button>
+            <button onClick={logoutUser} className="inline-block cursor-pointer bg-black text-white px-4 py-2 transition-colors duration-300 border border-black no-underline hover:bg-white hover:text-black" to="/">Logout</button>
           </>
         ) : (
             <Link className="inline-block cursor-pointer bg-black text-white px-4 py-2 transition-colors duration-300 border border-black no-underline hover:bg-white hover:text-black" to="/">Login</Link>

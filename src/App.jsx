@@ -1,18 +1,26 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Quiz from "./components/Quiz";
-import Login from "./components/Login"; 
+import Login from "./components/Login";
 import Leaderboard from "./components/LeaderBoard";
+import PrivateRoutes from "./utils/PrivateRoutes";
+import { AuthProvider } from "./utils/AuthContext";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Login/>}/>
-        {/* <Route path="/login" element={<Login />} /> */}
-        <Route path="/quiz" element={<Quiz />} />
-        <Route path='/leaderboard' element={<Leaderboard />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+
+          <Route element={<PrivateRoutes />}>
+            <Route path="/" element={<Quiz />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+          </Route>
+
+        </Routes>
+
+      </AuthProvider>
+      
     </Router>
   );
 }
