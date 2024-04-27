@@ -15,6 +15,8 @@ const TeamRow = ({ team }) => (
     </div>
 );
 
+
+
 function LeaderBoard() {
     const teams = [
         { rank: 1, name: 'Team A', score: 15 ,photo: one },
