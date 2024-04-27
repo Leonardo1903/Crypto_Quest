@@ -5,13 +5,15 @@ import Forward from "../assets/arrow3.svg";
 import Back from "../assets/arrow4.svg";
 import Modal from "./Modal"; // Import your modal component
 
-function Stepper({ Questions = [] }) {
+function Stepper({ Questions = [], CorrectAnswers = [] }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);
   const [margin, setMargin] = useState({ marginLeft: 0, marginRight: 0 });
   const [score, setScore] = useState(0); // Add a state for the score
   const [showModal, setShowModal] = useState(false); // Add a state for the modal visibility
   const stepRef = useRef([]);
+  const [userChoices, setUserChoices] = useState({});
+  var userans;
 
   useEffect(() => {
     setMargin({
@@ -59,9 +61,21 @@ function Stepper({ Questions = [] }) {
   };
 
   const handleSubmit = () => {
+    var score = 0;
+    Object.entries(userChoices).forEach(([questionIndex, userChoice]) => {
+      const correctAnswer = CorrectAnswers[questionIndex];
+      if (userChoice === correctAnswer) {
+        score++;
+      }
+    });
     // Calculate the score here and set it
-    setScore(4);
-    setShowModal(true); // Show the modal when the form is submitted
+
+    setScore(score);
+    setShowModal(true);
+  };
+
+  const handleOptionChange = (event) => {
+    setUserChoices({ ...userChoices, [currentStep - 1]: event.target.value });
   };
 
   const ActiveComponent = () => {
@@ -83,6 +97,7 @@ function Stepper({ Questions = [] }) {
                 name="option"
                 value={option}
                 className="hidden"
+                onChange={handleOptionChange}
               />
               <label
                 htmlFor={`option${index}`}
@@ -193,6 +208,7 @@ function Stepper({ Questions = [] }) {
 
 Stepper.propTypes = {
   Questions: PropTypes.array,
+  CorrectAnswers: PropTypes.array,
 };
 
 export default Stepper;
