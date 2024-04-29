@@ -2,22 +2,21 @@ import { Header, Stepper } from "./index";
 
 var doc = [];
 
-// Uncomment the Project id in appwrite config to get the dummy questions and answers
-// fetch(
-//   "https://cloud.appwrite.io/v1/databases/662a61ff31f95f4e00a7/collections/662a621faffed8b13d3e/documents",
-//   {
-//     method: "GET",
-//     headers: {
-//       "X-Appwrite-Project": "662a61da6824b9c5f45a",
-//       "X-Appwrite-Key": "https://cloud.appwrite.io/v1",
-//     },
-//   }
-// )
-//   .then((response) => response.json())
-//   .then((data) => {
-//     doc = data;
-//   })
-//   .catch((error) => console.error("Error fetching documents:", error));
+fetch(
+  "https://cloud.appwrite.io/v1/databases/662a61ff31f95f4e00a7/collections/662a621faffed8b13d3e/documents",
+  {
+    method: "GET",
+    headers: {
+      "X-Appwrite-Project": "662a61da6824b9c5f45a",
+      "X-Appwrite-Key": "https://cloud.appwrite.io/v1",
+    },
+  }
+)
+  .then((response) => response.json())
+  .then((data) => {
+    doc = data;
+  })
+  .catch((error) => console.error("Error fetching documents:", error));
 
 function Round2() {
   const quesData = doc.documents;
