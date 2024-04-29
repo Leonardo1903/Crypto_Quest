@@ -1,24 +1,33 @@
+import { useState, useEffect } from "react";
 import { Header, Stepper } from "./index";
-// import { database } from "../appwriteConfig";
-var doc = [];
-
-fetch(
-  "https://cloud.appwrite.io/v1/databases/662a61ff31f95f4e00a7/collections/662a620cb0f15797b46a/documents",
-  {
-    method: "GET",
-    headers: {
-      "X-Appwrite-Project": "662a61da6824b9c5f45a",
-      "X-Appwrite-Key": "https://cloud.appwrite.io/v1",
-    },
-  }
-)
-  .then((response) => response.json())
-  .then((data) => {
-    doc = data;
-  })
-  .catch((error) => console.error("Error fetching documents:", error));
+import { database } from "../appwriteConfig";
 
 function Round1() {
+  const [loading, setLoading] = useState(true);
+  const [doc, setDoc] = useState([]);
+
+  useEffect(() => {
+    const promise = database.listDocuments(
+      "662a61ff31f95f4e00a7",
+      "662a620cb0f15797b46a"
+    );
+
+    promise.then(
+      function (response) {
+        setDoc(response);
+        setLoading(false);
+      },
+      function (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    );
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   const quesData = doc.documents;
   const ques = Object.values(quesData).map((item) => item.Question);
   const allOptions = Object.values(quesData).map((item) => item.Options);
@@ -48,8 +57,6 @@ function Round1() {
       options: allOptions[4],
     },
   ];
-
-  console.log(ques, allOptions, CorrectAnswers);
 
   return (
     <>

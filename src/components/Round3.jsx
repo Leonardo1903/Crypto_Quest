@@ -1,24 +1,33 @@
+import { useState, useEffect } from "react";
 import { Header, Stepper } from "./index";
+import { database } from "../appwriteConfig";
 
-var doc = [];
+function Round1() {
+  const [loading, setLoading] = useState(true);
+  const [doc, setDoc] = useState([]);
 
-fetch(
-  "https://cloud.appwrite.io/v1/databases/662a61ff31f95f4e00a7/collections/662a6234972b96bce421/documents",
-  {
-    method: "GET",
-    headers: {
-      "X-Appwrite-Project": "662a61da6824b9c5f45a",
-      "X-Appwrite-Key": "https://cloud.appwrite.io/v1",
-    },
+  useEffect(() => {
+    const promise = database.listDocuments(
+      "662a61ff31f95f4e00a7",
+      "662a6234972b96bce421"
+    );
+
+    promise.then(
+      function (response) {
+        setDoc(response);
+        setLoading(false);
+      },
+      function (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    );
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
-)
-  .then((response) => response.json())
-  .then((data) => {
-    doc = data;
-  })
-  .catch((error) => console.error("Error fetching documents:", error));
 
-function Round3() {
   const quesData = doc.documents;
   const ques = Object.values(quesData).map((item) => item.Question);
   const allOptions = Object.values(quesData).map((item) => item.Options);
@@ -49,8 +58,6 @@ function Round3() {
     },
   ];
 
-  console.log(ques, allOptions, CorrectAnswers);
-
   return (
     <>
       <div className="bg-[#1A1916] text-white flex flex-col justify-center items-center">
@@ -64,4 +71,4 @@ function Round3() {
   );
 }
 
-export default Round3;
+export default Round1;
