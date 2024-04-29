@@ -80,6 +80,8 @@ function Stepper({ Questions = [], CorrectAnswers = [] }) {
 
   const ActiveComponent = () => {
     const question = Questions[currentStep - 1];
+    const selectedOption = userChoices[currentStep - 1];
+
     return (
       <form>
         <h2 className="font-semibold h-40 bg-[#FFC200] text-[#1A1916] flex items-center text-2xl px-4">
@@ -89,7 +91,7 @@ function Stepper({ Questions = [], CorrectAnswers = [] }) {
           {question.options.map((option, index) => (
             <div
               key={index}
-              className="relative w-full flex  justify-center items-center"
+              className="relative w-full flex justify-center items-center"
             >
               <input
                 type="radio"
@@ -101,15 +103,14 @@ function Stepper({ Questions = [], CorrectAnswers = [] }) {
               />
               <label
                 htmlFor={`option${index}`}
-                className="w-40 h-20 bg-[#D1D1D1] text-[#1A1916]  cursor-pointer flex items-center justify-center"
+                className="w-40 h-20 text-[#1A1916] cursor-pointer flex items-center justify-center"
+                style={{
+                  backgroundColor:
+                    selectedOption === option ? "#ffc200" : "#D1D1D1",
+                }}
               >
                 {option}
               </label>
-              <style>{`
-                input[type="radio"]:checked + label {
-                  background-color: #ffc200;
-                }
-              `}</style>
             </div>
           ))}
         </div>

@@ -1,4 +1,5 @@
 import { Header, Stepper } from "./index";
+// import { database } from "../appwriteConfig";
 var doc = [];
 
 fetch(
