@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Header, Stepper } from "./index";
+import {  Stepper } from "./index";
 import { database } from "../appwriteConfig";
 
 function Round1() {
@@ -62,7 +62,7 @@ function Round1() {
     <>
       <div className="bg-[#1A1916] text-white flex flex-col justify-center items-center">
         <div className="w-screen min-h-screen">
-          <Header />
+          {/* <Header /> */}
           <hr className="mb-4" />
           <Stepper Questions={Questions} CorrectAnswers={CorrectAnswers} Round={"Round1"} />
         </div>

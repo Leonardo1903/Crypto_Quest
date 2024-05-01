@@ -22,7 +22,7 @@ function Modal({ score }) {
           type="button"
           className="absolute bottom-4 right-4 bg-yellow-400 hover:bg-yellow-500 text-white rounded-md px-4 py-2 shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-opacity-50"
         >
-          <Link to="/leaderboard">View Leaderboard</Link>
+          <Link to="/">Thank You </Link>
         </button>
       </div>
     </div>
