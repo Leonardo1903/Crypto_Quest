@@ -64,7 +64,7 @@ function Round1() {
         <div className="w-screen min-h-screen">
           <Header />
           <hr className="mb-4" />
-          <Stepper Questions={Questions} CorrectAnswers={CorrectAnswers} />
+          <Stepper Questions={Questions} CorrectAnswers={CorrectAnswers} Round={"Round2"} />
         </div>
       </div>
     </>

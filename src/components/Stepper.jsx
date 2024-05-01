@@ -4,8 +4,10 @@ import arrowRight from "../assets/arrow2.svg";
 import Forward from "../assets/arrow3.svg";
 import Back from "../assets/arrow4.svg";
 import Modal from "./Modal"; // Import your modal component
+import { account,database } from "../appwriteConfig";
+import { ID } from "appwrite";
 
-function Stepper({ Questions = [], CorrectAnswers = [] }) {
+function Stepper({ Questions = [], CorrectAnswers = [],Round }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);
   const [margin, setMargin] = useState({ marginLeft: 0, marginRight: 0 });
@@ -13,7 +15,7 @@ function Stepper({ Questions = [], CorrectAnswers = [] }) {
   const [showModal, setShowModal] = useState(false); // Add a state for the modal visibility
   const stepRef = useRef([]);
   const [userChoices, setUserChoices] = useState({});
-  var userans;
+  
 
   useEffect(() => {
     setMargin({
@@ -72,6 +74,32 @@ function Stepper({ Questions = [], CorrectAnswers = [] }) {
 
     setScore(score);
     setShowModal(true);
+
+    const currentDate = new Date();
+    const formattedTime = currentDate.toISOString();
+
+    const promise = account.get();
+
+    promise.then(function (response) {
+      const teamData = {
+        "Score": score,
+        "SubmitTime" : formattedTime,
+        "UserId":response.$id,
+        "Round": Round,
+       
+      };
+      const promise = database.createDocument("662a61ff31f95f4e00a7","662a7c431a296a9eb10a",ID.unique(),JSON.stringify(teamData))
+
+      promise.then(function (response) {
+          console.log(response); // Success
+      }, function (error) {
+          console.log(error); // Failure
+      });
+      }, function (error) {
+          console.log(error); // Failure
+       }
+      );
+
   };
 
   const handleOptionChange = (event) => {
