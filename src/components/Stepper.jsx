@@ -86,7 +86,7 @@ function Stepper({ Questions = [], CorrectAnswers = [],Round }) {
         "SubmitTime" : formattedTime,
         "UserId":response.$id,
         "Round": Round,
-       
+        
       };
       const promise = database.createDocument("662a61ff31f95f4e00a7","662a7c431a296a9eb10a",ID.unique(),JSON.stringify(teamData))
 
