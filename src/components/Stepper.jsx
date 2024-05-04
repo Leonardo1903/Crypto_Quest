@@ -137,7 +137,7 @@ function Stepper({ Questions = [], CorrectAnswers = [], CollectionID }) {
         };
         const promise = database.createDocument(
           "662a61ff31f95f4e00a7",
-          CollectionID,
+           CollectionID,
           ID.unique(),
           JSON.stringify(teamData)
         );
