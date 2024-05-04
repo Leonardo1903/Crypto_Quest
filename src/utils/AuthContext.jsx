@@ -1,11 +1,20 @@
 import { useContext, useState, useEffect, createContext } from "react";
 import ReactLoading from 'react-loading';
 import { account } from "../appwriteConfig";
+import {createBrowserHistory} from "history";
+
+
+
+export const ErrorContext = createContext();
 const AuthContext = createContext();
+const history =  createBrowserHistory();
 
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setuser] = useState(false);
+
+  
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     checkUserStatus();
@@ -25,9 +34,10 @@ export const AuthProvider = ({ children }) => {
       //   console.log(response);
       setLoading(false);
     } catch (error) {
-      console.error(error);
-      window.alert("Invalid credentials"); // alert the user
+      console.log(error.message);  // alert the user
+      setErrorMessage(error.message);
       history.push("/login"); // redirect to login page
+      setLoading(false)
     }
   };
 
@@ -58,13 +68,16 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={contextData}>
-      {loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <ReactLoading type={"spin"} color={"#FFD700"} height={'10%'} width={'10%'} />
-      </div>
-      ) : (
-        children
-      )}
+      <ErrorContext.Provider value = {errorMessage}>
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+              <ReactLoading type={"spin"} color={"#FFD700"} height={'10%'} width={'10%'} />
+        </div>
+        ) : (
+          children
+        )}
+      </ErrorContext.Provider>
+
     </AuthContext.Provider>
   );
 };
@@ -72,4 +85,9 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   return useContext(AuthContext);
 };
+
+export const useError = () =>{
+  return useContext(ErrorContext);
+}
+
 export default AuthContext;
