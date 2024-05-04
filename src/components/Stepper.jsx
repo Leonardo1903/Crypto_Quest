@@ -48,6 +48,16 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
   }, [answeredSteps]);
 
   useEffect(() => {
+    if (localStorage.getItem('submitted') === 'true') {
+      alert('You have already submitted the quiz');
+
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 50);
+    }
+  }, []);
+
+  useEffect(() => {
     setMargin({
       marginLeft: stepRef.current[0].offsetWidth / 2,
       marginRight: stepRef.current[Questions.length - 1].offsetWidth / 2,
@@ -99,6 +109,7 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
   };
 
   const handleSubmit = () => {
+    localStorage.setItem('submitted', 'true');
     var score = 0;
     Object.entries(userChoices).forEach(([questionIndex, userChoice]) => {
       const correctAnswer = CorrectAnswers[questionIndex];
