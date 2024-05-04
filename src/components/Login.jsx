@@ -33,6 +33,12 @@ const Login = () => {
     const email = loginForm.current.email.value;
     const password = loginForm.current.password.value;
 
+    if (!email.trim() || !password.trim()) {
+      alert("Please enter a valid email ID and Password");
+      return;
+    }
+
+
     const userInfo = { email, password };
     loginUser(userInfo);
   };
