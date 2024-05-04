@@ -7,7 +7,7 @@ import Modal from "./Modal"; // Import your modal component
 import { account, database } from "../appwriteConfig";
 import { ID } from "appwrite";
 
-function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
+function Stepper({ Questions = [], CorrectAnswers = [], CollectionID }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);
   const [margin, setMargin] = useState({ marginLeft: 0, marginRight: 0 });
@@ -130,15 +130,14 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
     promise.then(
       function (response) {
         const teamData = {
+          UserID: response.$id,
+          UserName: response.name,
           Score: score,
           SubmitTime: formattedTime,
-          UserId: response.$id,
-          UserName: response.name,
-          Round: Round,
         };
         const promise = database.createDocument(
           "662a61ff31f95f4e00a7",
-          "662a7c431a296a9eb10a",
+          CollectionID,
           ID.unique(),
           JSON.stringify(teamData)
         );
