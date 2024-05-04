@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Stepper } from "./index";
-import { ColorRing } from "react-loader-spinner";
+import ReactLoading from "react-loading";
 import { database } from "../appwriteConfig";
 
 function Round1() {
@@ -27,16 +27,8 @@ function Round1() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items">
-        <ColorRing
-          visible={true}
-          height="200"
-          width="200"
-          ariaLabel="color-ring-loading"
-          wrapperStyle={{}}
-          wrapperClass="color-ring-wrapper"
-          colors={["#FFD700", "#C0C0C0", "#FFD700", "#C0C0C0", "#FFD700"]}
-        />
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <ReactLoading type={"spin"} color={"#FFD700"} height={'10%'} width={'10%'} />
       </div>
     );
   }

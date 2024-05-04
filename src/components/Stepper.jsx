@@ -15,6 +15,7 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
   const [showModal, setShowModal] = useState(false); // Add a state for the modal visibility
   const stepRef = useRef([]);
   const [userChoices, setUserChoices] = useState({});
+  const [answeredSteps, setAnsweredSteps] = useState([]);
 
   useEffect(() => {
     setMargin({
@@ -31,15 +32,21 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
     return ((currentStep - 1) / (Questions.length - 1)) * 100;
   };
 
+ 
   const handleNext = () => {
     setCurrentStep((prev) => {
       if (prev === Questions.length) {
         setIsComplete(true);
         return prev;
       }
+      // Check if an answer has been selected for the current step
+      if (userChoices.hasOwnProperty(prev - 1)) {
+        setAnsweredSteps((prevSteps) => [...prevSteps, prev]);
+      }
       return prev + 1;
     });
-  };
+};
+
 
   const handlePrevious = () => {
     setCurrentStep((prev) => {
@@ -165,7 +172,7 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
           >
             <div
               className={`w-8 h-8 rounded-2xl flex justify-center items-center mb-2 z-[2] ${
-                currentStep > index + 1 || isComplete
+                answeredSteps.includes(index + 1) || isComplete
                   ? "bg-[#FFC200] text-[#1A1916]"
                   : currentStep === index + 1
                   ? "bg-[#FFC200] text-[#B8ACAC]"
@@ -174,14 +181,14 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
             >
               <div
                 className={`rounded-2xl w-6 h-6 text-center ${
-                  currentStep > index + 1 || isComplete
+                  answeredSteps.includes(index + 1) || isComplete
                     ? "bg-[#FFC200]"
                     : currentStep === index + 1
                     ? "bg-[#1A1916]"
                     : "bg-[#D1D1D1]"
                 } `}
               >
-                {currentStep > index + 1 || isComplete ? (
+                {answeredSteps.includes(index + 1) || isComplete ? (
                   <span>✓</span>
                 ) : (
                   index + 1
@@ -227,7 +234,7 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
               <img src={arrowRight} className=" h-3 w-3 ml-2" />
             </button>
           )}
-          {currentStep < Questions.length && (
+          {/* {currentStep < Questions.length && (
             <button
               className="text-[#FFC200] shadow-lg ml-2 flex items-center"
               onClick={handleSkip}
@@ -235,7 +242,7 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
               Skip
               <img src={Forward} className="h-3 w-3 ml-1" />
             </button>
-          )}
+          )} */}
         </div>
       </div>
       {showModal && <Modal score={score} onClose={() => setShowModal(false)} />}
