@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 function Rounds() {
   const { user, logoutUser } = useAuth();
   const round1ButtonDisabled = false;
-  const round2ButtonDisabled = true;
-  const round3ButtonDisabled = true;
+  const round2ButtonDisabled = false;
+  const round3ButtonDisabled = false;
   return (
     <div className="bg-[#1A1916] text-white flex flex-col justify-center items-center">
       <div className="">

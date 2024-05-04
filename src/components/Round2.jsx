@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Header, Stepper } from "./index";
+import { Stepper } from "./index";
+import { ColorRing } from "react-loader-spinner";
 import { database } from "../appwriteConfig";
 
 function Round1() {
@@ -25,7 +26,19 @@ function Round1() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center">
+        <ColorRing
+          visible={true}
+          height="200"
+          width="200"
+          ariaLabel="color-ring-loading"
+          wrapperStyle={{}}
+          wrapperClass="color-ring-wrapper"
+          colors={["#FFD700", "#C0C0C0", "#FFD700", "#C0C0C0", "#FFD700"]}
+        />
+      </div>
+    );
   }
 
   const quesData = doc.documents;
@@ -56,15 +69,37 @@ function Round1() {
       component: () => <div>{ques[4]}</div>,
       options: allOptions[4],
     },
+    {
+      component: () => <div>{ques[5]}</div>,
+      options: allOptions[5],
+    },
+    {
+      component: () => <div>{ques[6]}</div>,
+      options: allOptions[6],
+    },
+    {
+      component: () => <div>{ques[7]}</div>,
+      options: allOptions[7],
+    },
+    {
+      component: () => <div>{ques[8]}</div>,
+      options: allOptions[8],
+    },
+    {
+      component: () => <div>{ques[9]}</div>,
+      options: allOptions[9],
+    },
   ];
 
   return (
     <>
-      <div className="bg-[#1A1916] text-white flex flex-col justify-center items-center">
-        <div className="w-screen min-h-screen">
-          <Header />
-          <hr className="mb-4" />
-          <Stepper Questions={Questions} CorrectAnswers={CorrectAnswers} Round={"Round2"} />
+      <div className="bg-[#1A1916] text-white">
+        <div className="w-screen min-h-screen flex flex-col">
+          <Stepper
+            Questions={Questions}
+            CorrectAnswers={CorrectAnswers}
+            Round={"Round2"}
+          />
         </div>
       </div>
     </>
