@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, createContext } from "react";
-import { ColorRing } from "react-loader-spinner";
+import ReactLoading from 'react-loading';
 import { account } from "../appwriteConfig";
 const AuthContext = createContext();
 
@@ -59,17 +59,9 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={contextData}>
       {loading ? (
-        <div className="flex justify-center items-center">
-          <ColorRing
-            visible={true}
-            height="200"
-            width="200"
-            ariaLabel="color-ring-loading"
-            wrapperStyle={{}}
-            wrapperClass="color-ring-wrapper"
-            colors={["#FFD700", "#C0C0C0", "#FFD700", "#C0C0C0", "#FFD700"]}
-          />
-        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <ReactLoading type={"spin"} color={"#FFD700"} height={'10%'} width={'10%'} />
+      </div>
       ) : (
         children
       )}
