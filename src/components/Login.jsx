@@ -1,12 +1,14 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import img1 from "../assets/hero.png";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../utils/AuthContext";
+import { useAuth, useError } from "../utils/AuthContext";
+// import { emailContext } from "../utils/AuthContext";
 
 // const loginForm = useRef(null);
 
+
 // const handleSubmit = (e) => {
-//   e.preventDefault();
+  //   e.preventDefault();
 //   const email = loginForm.current.email.value;
 //   const password = loginForm.current.password.value;
 
@@ -17,7 +19,12 @@ import { useAuth } from "../utils/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const errorMessage = useError();
+  const [emailColor, setEmailColor] = useState('');
   const { user, loginUser } = useAuth();
+
+  
+  // console.log(emailError);
 
   const loginForm = useRef(null);
 
@@ -27,9 +34,13 @@ const Login = () => {
     }
   }, []);
 
+  const validateEmail = (email) =>{
+    const regex =  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const email = loginForm.current.email.value;
     const password = loginForm.current.password.value;
 
@@ -65,8 +76,14 @@ const Login = () => {
                 type="email"
                 name="email"
                 placeholder="Enter email...."
-                className="mt-1 p-2 w-full border rounded-md focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-yellow-500 transition-colors duration-300"
+                className={`mt-1 p-2 w-full border rounded-md ${errorMessage ? "focus:border-red-500 focus:ring-red-500 ": "focus:border-yellow-500 focus:ring-yellow-500 " } focus:outline-none focus:ring-2 focus:ring-offset-1 transition-colors duration-300`}
               />
+
+              {errorMessage && (
+                <p 
+                  className="text-red-500"
+                >{errorMessage}</p>
+              )}
             </div>
             <div>
               <label
@@ -80,7 +97,7 @@ const Login = () => {
                 type="password"
                 name="password"
                 placeholder="Enter password..."
-                className="mt-1 p-2 w-full border rounded-md focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-yellow-500 transition-colors duration-300"
+                className={`mt-1 p-2 w-full border rounded-md ${emailColor ? "focus:border-red-500 focus:ring-red-500 ": "focus:border-yellow-500 focus:ring-yellow-500 " }focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-yellow-500 transition-colors duration-300`}
               />
             </div>
             <div>
