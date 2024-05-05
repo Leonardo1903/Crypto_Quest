@@ -5,9 +5,9 @@ import Forward from "../assets/arrow3.svg";
 import Back from "../assets/arrow4.svg";
 import Modal from "./Modal"; // Import your modal component
 import { account, database } from "../appwriteConfig";
-import { ID } from "appwrite";
+import { ID,Query } from "appwrite";
 
-function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
+function Stepper({ Questions = [], CorrectAnswers = [], CollectionID, roundId}) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);
   const [margin, setMargin] = useState({ marginLeft: 0, marginRight: 0 });
@@ -15,28 +15,29 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
   const [showModal, setShowModal] = useState(false); // Add a state for the modal visibility
   const stepRef = useRef([]);
   const [userChoices, setUserChoices] = useState(() => {
-    const savedUserChoices = localStorage.getItem('userChoices');
+    const savedUserChoices = localStorage.getItem(`userChoices_${roundId}`);
     return savedUserChoices ? JSON.parse(savedUserChoices) : {};
   });
+  
   const [answeredSteps, setAnsweredSteps] = useState(() => {
-    const savedAnsweredSteps = localStorage.getItem('answeredSteps');
+    const savedAnsweredSteps = localStorage.getItem(`answeredSteps_${roundId}`);
     return savedAnsweredSteps ? JSON.parse(savedAnsweredSteps) : [];
   });
 
   useEffect(() => {
-    const savedUserChoices = localStorage.getItem('userChoices');
+    const savedUserChoices = localStorage.getItem(`userChoices_${roundId}`);
     if (savedUserChoices) {
       setUserChoices(JSON.parse(savedUserChoices));
     }
   }, []);
   
-
   useEffect(() => {
-    localStorage.setItem('userChoices', JSON.stringify(userChoices));
+    localStorage.setItem(`userChoices_${roundId}`, JSON.stringify(userChoices));
   }, [userChoices]);
+  
   // Load answeredSteps from local storage when the component is mounted
   useEffect(() => {
-    const savedAnsweredSteps = localStorage.getItem('answeredSteps');
+    const savedAnsweredSteps = localStorage.getItem(`answeredSteps_${roundId}`);
     if (savedAnsweredSteps) {
       setAnsweredSteps(JSON.parse(savedAnsweredSteps));
     }
@@ -44,17 +45,28 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
 
   // Save answeredSteps to local storage whenever it changes
   useEffect(() => {
-    localStorage.setItem('answeredSteps', JSON.stringify(answeredSteps));
+    localStorage.setItem(`answeredSteps_${roundId}`, JSON.stringify(answeredSteps));
   }, [answeredSteps]);
 
   useEffect(() => {
-    if (localStorage.getItem('submitted') === 'true') {
-      alert('You have already submitted the quiz');
-
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 50);
-    }
+    const promise = account.get();
+    promise.then(
+      async function (response) {
+        const userName = response.name;
+        const result = await database.listDocuments("662a61ff31f95f4e00a7",CollectionID,[Query.select(['UserID'])]);
+        console.log(result);
+        if (result.documents.some((doc) => doc.UserID === response.$id)){
+              localStorage.setItem('submitted', 'true');
+              alert('You have already submitted the quiz');
+  
+              setTimeout(() => {
+                window.location.href = '/';
+              }, 50);
+            }
+        else{
+          localStorage.setItem('submitted', 'false');
+        }
+          })
   }, []);
 
   useEffect(() => {
@@ -130,15 +142,14 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
     promise.then(
       function (response) {
         const teamData = {
+          UserID: response.$id,
+          UserName: response.name,
           Score: score,
           SubmitTime: formattedTime,
-          UserId: response.$id,
-          UserName: response.name,
-          Round: Round,
         };
         const promise = database.createDocument(
           "662a61ff31f95f4e00a7",
-          "662a7c431a296a9eb10a",
+           CollectionID,
           ID.unique(),
           JSON.stringify(teamData)
         );

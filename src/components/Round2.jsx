@@ -3,7 +3,7 @@ import { Stepper } from "./index";
 import ReactLoading from "react-loading";
 import { database } from "../appwriteConfig";
 
-function Round1() {
+function Round2() {
   const [loading, setLoading] = useState(true);
   const [doc, setDoc] = useState([]);
 
@@ -90,7 +90,8 @@ function Round1() {
           <Stepper
             Questions={Questions}
             CorrectAnswers={CorrectAnswers}
-            Round={"Round2"}
+             CollectionID={"66366ed20001a20d1e31"}
+             roundId={"round2"}
           />
         </div>
       </div>
@@ -98,4 +99,4 @@ function Round1() {
   );
 }
 
-export default Round1;
+export default Round2;
