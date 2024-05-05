@@ -90,7 +90,8 @@ function Round1() {
           <Stepper
             Questions={Questions}
             CorrectAnswers={CorrectAnswers}
-             CollectionID={"66366eba0038e4c65f71"}
+            CollectionID={"66366eba0038e4c65f71"}
+            roundId={"round1"}
           />
         </div>
       </div>
