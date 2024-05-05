@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error(error);
       window.alert("Invalid credentials"); // alert the user
-      history.push("/login"); // redirect to login page
+      window.location.reload(); // reload the page
     }
   };
 
