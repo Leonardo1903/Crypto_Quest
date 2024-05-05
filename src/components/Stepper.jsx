@@ -14,8 +14,48 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
   const [score, setScore] = useState(0); // Add a state for the score
   const [showModal, setShowModal] = useState(false); // Add a state for the modal visibility
   const stepRef = useRef([]);
-  const [userChoices, setUserChoices] = useState({});
-  const [answeredSteps, setAnsweredSteps] = useState([]);
+  const [userChoices, setUserChoices] = useState(() => {
+    const savedUserChoices = localStorage.getItem('userChoices');
+    return savedUserChoices ? JSON.parse(savedUserChoices) : {};
+  });
+  const [answeredSteps, setAnsweredSteps] = useState(() => {
+    const savedAnsweredSteps = localStorage.getItem('answeredSteps');
+    return savedAnsweredSteps ? JSON.parse(savedAnsweredSteps) : [];
+  });
+
+  useEffect(() => {
+    const savedUserChoices = localStorage.getItem('userChoices');
+    if (savedUserChoices) {
+      setUserChoices(JSON.parse(savedUserChoices));
+    }
+  }, []);
+  
+
+  useEffect(() => {
+    localStorage.setItem('userChoices', JSON.stringify(userChoices));
+  }, [userChoices]);
+  // Load answeredSteps from local storage when the component is mounted
+  useEffect(() => {
+    const savedAnsweredSteps = localStorage.getItem('answeredSteps');
+    if (savedAnsweredSteps) {
+      setAnsweredSteps(JSON.parse(savedAnsweredSteps));
+    }
+  }, []);
+
+  // Save answeredSteps to local storage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('answeredSteps', JSON.stringify(answeredSteps));
+  }, [answeredSteps]);
+
+  useEffect(() => {
+    if (localStorage.getItem('submitted') === 'true') {
+      alert('You have already submitted the quiz');
+
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 50);
+    }
+  }, []);
 
   useEffect(() => {
     setMargin({
@@ -45,7 +85,7 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
       }
       return prev + 1;
     });
-};
+  };
 
 
   const handlePrevious = () => {
@@ -69,6 +109,7 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
   };
 
   const handleSubmit = () => {
+    localStorage.setItem('submitted', 'true');
     var score = 0;
     Object.entries(userChoices).forEach(([questionIndex, userChoice]) => {
       const correctAnswer = CorrectAnswers[questionIndex];
@@ -170,31 +211,31 @@ function Stepper({ Questions = [], CorrectAnswers = [], Round }) {
             ref={(element) => (stepRef.current[index] = element)}
             className="flex flex-col items-center w-screen"
           >
+          <div
+            className={`w-8 h-8 rounded-2xl flex justify-center items-center mb-2 z-[2] ${
+              answeredSteps.includes(index + 1) || isComplete
+                ? "bg-[#FFC200] text-[#1A1916]"
+                : currentStep === index + 1
+                ? "bg-[#FFC200] text-[#B8ACAC]"
+                : "bg-[#D1D1D1]"
+            }`}
+          >
             <div
-              className={`w-8 h-8 rounded-2xl flex justify-center items-center mb-2 z-[2] ${
+              className={`rounded-2xl w-6 h-6 text-center ${
                 answeredSteps.includes(index + 1) || isComplete
-                  ? "bg-[#FFC200] text-[#1A1916]"
+                  ? "bg-[#FFC200]"
                   : currentStep === index + 1
-                  ? "bg-[#FFC200] text-[#B8ACAC]"
+                  ? "bg-[#1A1916]"
                   : "bg-[#D1D1D1]"
-              }`}
+              } `}
             >
-              <div
-                className={`rounded-2xl w-6 h-6 text-center ${
-                  answeredSteps.includes(index + 1) || isComplete
-                    ? "bg-[#FFC200]"
-                    : currentStep === index + 1
-                    ? "bg-[#1A1916]"
-                    : "bg-[#D1D1D1]"
-                } `}
-              >
-                {answeredSteps.includes(index + 1) || isComplete ? (
-                  <span>✓</span>
-                ) : (
-                  index + 1
-                )}
-              </div>
+              {answeredSteps.includes(index + 1) || isComplete ? (
+                <span>✓</span>
+              ) : (
+                index + 1
+              )}
             </div>
+          </div>
           </div>
         ))}
         <div
