@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Rounds() {
   const { user, logoutUser } = useAuth();
-  const round1ButtonDisabled = false;
+  const round1ButtonDisabled = true;
   const round2ButtonDisabled = true;
   const round3ButtonDisabled = true;
   return (
